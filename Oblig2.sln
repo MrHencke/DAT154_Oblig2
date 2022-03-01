@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", ".\Program\Program.csproj", "{E1558180-5F42-4863-AB64-F2A0B2BFF298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Program", "Program\Program.csproj", "{E1558180-5F42-4863-AB64-F2A0B2BFF298}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelestialObjects", ".\CelestialObjects\CelestialObjects.csproj", "{DC973B83-77A3-4BB4-9794-813CDBCB1927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celestials", "CelestialObjects\Celestials.csproj", "{DC973B83-77A3-4BB4-9794-813CDBCB1927}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

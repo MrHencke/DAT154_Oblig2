@@ -1,47 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using System.Drawing;
 
 namespace Celestials
 {
-        public class SpaceObject
+    public class CelestialObject
+    {
+        protected String name;
+        protected int objectRadius { get; set; }
+        protected int orbitalRadius{ get; set; }
+        protected int orbitalPeriod { get; set; }
+        protected int rotationalPeriod { get; set; }
+        public Color objectColor { get; set; }
+
+        public CelestialObject(String name)
         {
-            protected String name;
-            public SpaceObject(String name)
-            {
-                this.name = name;
-            }
-            public virtual void Draw()
-            {
-                Console.WriteLine(name);
-            }
+            this.name = name;
         }
-        public class Star : SpaceObject
+
+        public virtual ValueTuple<int, int> calculatePosition(int time)
         {
-            public Star(String name) : base(name) { }
-            public override void Draw()
-            {
-                Console.Write("Star : ");
-                base.Draw();
-            }
+            int x = (int)(orbitalRadius * Math.Cos(time * orbitalPeriod * Math.PI / 180));
+            int y = (int)(orbitalRadius * Math.Sin(time * orbitalPeriod * Math.PI / 180));
+            (int x, int y) pos = (x,y);
+            return pos;
         }
-        public class Planet : SpaceObject
+
+        public virtual void Draw()
         {
-            public Planet(String name) : base(name) { }
-            public override void Draw()
-            {
-                Console.Write("Planet: ");
-                base.Draw();
-            }
+        Console.Write("{0}: ", this.GetType().Name);
+        Console.WriteLine(name);
         }
-        public class Moon : Planet
-        {
-            public Moon(String name) : base(name) { }
-            public override void Draw()
-            {
-                Console.Write("Moon : ");
-                base.Draw();
-            }
-        }
-    
+    }
 }

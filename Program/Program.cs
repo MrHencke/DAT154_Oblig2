@@ -9,7 +9,7 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            List<SpaceObject> solarSystem = new List<SpaceObject>
+            List<CelestialObject> solarSystem = new List<CelestialObject>
              {
                  new Star("Sun"),
                  new Planet("Mercury"),
@@ -17,7 +17,7 @@ namespace Program
                  new Planet("Terra"),
                  new Moon("The Moon")
              };
-            foreach (SpaceObject obj in solarSystem)
+            foreach (CelestialObject obj in solarSystem)
             {
                 obj.Draw();
             }
