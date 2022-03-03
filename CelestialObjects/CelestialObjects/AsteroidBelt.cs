@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Celestials
 {
-    public class DwarfPlanet : Planet
+    public class AsteroidBelt : CelestialObject
     {
-        public DwarfPlanet(String name) : base(name) { }
+        public int innerOrbitalRadius;
+        public AsteroidBelt(String name) : base(name) { }
         public override void Draw()
         {
-            //Console.Write("Planet: ");
             base.Draw();
         }
     }

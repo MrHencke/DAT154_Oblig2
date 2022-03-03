@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿
 using Celestials;
 
 
@@ -7,22 +6,53 @@ namespace Program
 {
     class Program
     {
+        private bool exit = false;
         static void Main(string[] args)
         {
-            List<CelestialObject> solarSystem = new List<CelestialObject>
-             {
-                 new Star("Sun"),
-                 new Planet("Mercury"),
-                 new Planet("Venus"),
-                 new Planet("Terra"),
-                 new Moon("The Moon")
-             };
-            foreach (CelestialObject obj in solarSystem)
+            Program p = new Program();
+            while (!p.exit)
             {
-                obj.Draw();
+            p.ProgramLoop();
             }
+        }
 
-            Console.ReadLine();
+        void ProgramLoop()
+        {
+            int time;
+            SolarSystem milkyWay = new MilkyWay();
+            time = GetTime();
+            Console.WriteLine("Please enter an object: ");
+            string cmd = Console.ReadLine()!.ToLower();
+            if (cmd == "") cmd = "sun";
+            CelestialObject obj = milkyWay.objects.Where(i => i.name.ToLower() == cmd).FirstOrDefault()!;
+            if (obj == null) return;
+            if (obj.name == "Sun")
+            {
+                milkyWay.objects.ForEach(i => 
+                { 
+                i.Draw();
+                i.calculatePosition(time);
+                });
+            }
+            else
+            {
+                obj.Draw(time);
+            }
+            exit = true;
+        }
+
+        static int GetTime()
+        {
+            int time;
+            while (true)
+            {
+                    Console.WriteLine("Please enter a time: ");
+                    try
+                    {
+                       return time = int.Parse(Console.ReadLine());
+                    }
+                    catch (Exception ex){}
+            }
         }
     }
 }
