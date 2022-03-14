@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Celestials
+namespace CelestialsLib
 {
-    public class Comet : CelestialObject
+    public class AsteroidBelt : CelestialObject
     {
-        public Comet(String name) : base(name) { }
+        public int innerOrbitalRadius;
+        public AsteroidBelt(String name) : base(name) { }
         public override void Draw()
         {
             base.Draw();

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Celestials
+namespace CelestialsLib
 {
     public class DwarfPlanet : Planet
     {
-        public DwarfPlanet(String name, double objectRadius, long orbitalRadius, double orbitalPeriod, double rotationalPeriod, Color objectColor) : 
-            base(name, objectRadius, orbitalRadius, orbitalPeriod, rotationalPeriod, objectColor) { }
+        public DwarfPlanet(String name, CelestialObject orbits, int objectRadius, long orbitalRadius, double orbitalPeriod, double rotationalPeriod, Color objectColor) : 
+            base(name, orbits, objectRadius, orbitalRadius, orbitalPeriod, rotationalPeriod, objectColor) { }
         public override void Draw()
         {
             //Console.Write("Planet: ");

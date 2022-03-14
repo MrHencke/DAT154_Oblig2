@@ -1,11 +1,13 @@
-﻿namespace View2
+﻿namespace View
 {
+    using CelestialsLib;
     partial class Form1
     {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private SolarSystem solarSystem;
 
         /// <summary>
         ///  Clean up any resources being used.
@@ -29,19 +31,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
-        }
-        public void Draw(Graphics g)
-        {
-            Brush brush;
-
-            brush = Brushes.Green;
-            g.FillRectangle(brush, 0, 0, 100, 100);
+            this.SuspendLayout();
+            this.ClientSize = new System.Drawing.Size(1600, 900);
+            this.solarSystem = new DebugWay();
+            this.Name = "Solar System Explorer";
+            this.Text = "Solar System Explorer";
+            this.CenterToScreen();
 
         }
-
 
         #endregion
     }

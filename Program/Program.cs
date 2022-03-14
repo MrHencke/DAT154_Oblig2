@@ -1,5 +1,4 @@
-﻿
-using Celestials;
+﻿using CelestialsLib;
 
 
 namespace Program
@@ -47,11 +46,11 @@ namespace Program
             while (true)
             {
                     Console.WriteLine("Please enter a time: ");
-                    try
-                    {
-                       return time = int.Parse(Console.ReadLine());
+                try
+                {
+                       return time = int.Parse(Console.ReadLine()!);
                     }
-                    catch (Exception ex){}
+                    catch (Exception) { }
             }
         }
     }
