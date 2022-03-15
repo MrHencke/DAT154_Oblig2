@@ -8,11 +8,11 @@ namespace CelestialsLib
     
     public class SolarSystem
     {
-        public Sun Sun { get; protected set; }
+        public Sun GravitationalCenter { get; protected set; }
         public List<CelestialObject> objects { get; protected set; }
         public SolarSystem()
         {
-            this.Sun = new Sun();
+            this.GravitationalCenter = new Sun();
             this.objects = new List<CelestialObject>();
         }
     }

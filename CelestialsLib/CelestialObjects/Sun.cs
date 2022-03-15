@@ -7,8 +7,11 @@ namespace CelestialsLib
         public Sun() :
             base("Sun", null, 696342, 0, 0, 25, Color.Yellow)
         {
-            this.objectRadius = Scaling.sunRadius;
             this.orbits = this;
+        }
+
+        public override void updatePosition(int time)
+        { 
         }
 
         public void setPosition(Tuple<int, int> center)
@@ -16,6 +19,5 @@ namespace CelestialsLib
             this.xPos = center.Item1;
             this.yPos = center.Item2;
         }
-
     }
 }

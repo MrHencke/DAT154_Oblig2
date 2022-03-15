@@ -23,10 +23,10 @@ namespace CelestialsLib
         {
             this.name = name;
             this.orbits = orbits;
-            this.xPos = (int)(Scaling.sunRadius + ((objectRadius + orbitalRadius) / Scaling.scale) / 50);
+            this.xPos = 0;
             this.yPos = 0;
-            this.objectRadius = objectRadius* Scaling.planetScale / Scaling.scale;
-            this.orbitalRadius = (int)(Scaling.sunRadius + ((objectRadius + orbitalRadius) / Scaling.scale) / 50);
+            this.objectRadius = (int)(Math.Sqrt(objectRadius)/Math.Log(objectRadius));
+            this.orbitalRadius = (int)(Math.Sqrt(200*Math.Sqrt(orbitalRadius) / Math.Log(orbitalRadius)))-200; 
             this.orbitalPeriod = orbitalPeriod;
             this.rotationalPeriod = rotationalPeriod;
             this.objectColor = objectColor;
@@ -34,8 +34,8 @@ namespace CelestialsLib
 
         public virtual void updatePosition(int time)
         {
-            xPos = (int)(orbits.xPos + (orbitalRadius * Math.Cos(time * orbitalPeriod * Math.PI / 180)));
-            yPos = (int)(orbits.yPos + (orbitalRadius * Math.Sin(time * orbitalPeriod * Math.PI / 180)));
+            this.xPos = (int)(this.orbits.xPos + (this.orbitalRadius * Math.Cos((time / this.orbitalPeriod) * Math.PI)));
+            this.yPos = (int)(this.orbits.yPos + (this.orbitalRadius * Math.Sin((time / this.orbitalPeriod) * Math.PI)));
         }
 
         public virtual void Draw()
@@ -50,13 +50,39 @@ namespace CelestialsLib
             writePosition(time);
         }
 
-        public virtual void DrawForms(Graphics g)
+        public virtual void DrawForms(Graphics g, int x = -1, int y = -1)
         {
-            updatePosition(0);
+            int zoomedSize = 62;
             Brush brush = new SolidBrush(objectColor);
-            Rectangle rect = new Rectangle(xPos-objectRadius, yPos -objectRadius, 2*objectRadius, 2*objectRadius);
+            Rectangle rect = x == -1 && y == -1 ? new Rectangle(xPos-objectRadius, yPos-objectRadius, 2*objectRadius, 2*objectRadius) 
+                : new Rectangle(x - zoomedSize, y - zoomedSize, 2 * zoomedSize, 2 * zoomedSize);
             g.FillEllipse(brush, rect);
             brush.Dispose();
+        }
+
+        public virtual void DrawObjectName(Graphics g, int x = -1, int y = -1)
+        {
+            FontFamily fontFamily = new FontFamily("Lucida Console");
+            Font font = new Font(
+               fontFamily,
+               14,
+               FontStyle.Regular,
+               GraphicsUnit.Point   
+               );
+            Point point = x == -1 && y == -1 ? new Point(this.xPos-10, this.yPos+this.objectRadius+10)
+                : new Point(x, y + this.objectRadius+10);
+            StringFormat stringFormat = new StringFormat();
+            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(255, 0, 0, 255));
+            stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+            g.DrawString(this.name, font, solidBrush, point, stringFormat);
+        }
+
+        public virtual void DrawObjectOrbit(Graphics g)
+        {
+            Pen pen = new Pen(Color.White);
+            Rectangle rect = new Rectangle(this.orbits.xPos - orbitalRadius, this.orbits.yPos - orbitalRadius, 2 * orbitalRadius, 2 * orbitalRadius);
+            g.DrawEllipse(pen, rect);
+            pen.Dispose();
         }
 
         public virtual void writePosition(int time)

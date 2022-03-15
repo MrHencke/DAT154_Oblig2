@@ -30,7 +30,7 @@ namespace Program
                 milkyWay.objects.ForEach(i => 
                 { 
                 i.Draw();
-                i.calculatePosition(time);
+                i.writePosition(time);
                 });
             }
             else
