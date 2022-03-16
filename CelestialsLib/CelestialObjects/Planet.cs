@@ -24,10 +24,10 @@ namespace CelestialsLib
             if( Moons != null ) Moons.ForEach(m => m.Draw(time));
         }
 
-        public override void updatePosition(int time)
+        public override void UpdatePosition(int time)
         {
-            base.updatePosition(time);
-            if (Moons.Count > 0) Moons.ForEach(m => m.updatePosition(time));
+            base.UpdatePosition(time);
+            if (Moons.Count > 0) Moons.ForEach(m => m.UpdatePosition(time));
         }
         public override void DrawForms(Graphics g)
         {

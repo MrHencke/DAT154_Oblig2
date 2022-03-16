@@ -13,7 +13,6 @@ namespace CelestialsLib
             base(name, orbits, objectRadius, orbitalRadius, orbitalPeriod, rotationalPeriod, objectColor) { }
         public override void Draw()
         {
-            //Console.Write("Planet: ");
             base.Draw();
         }
     }

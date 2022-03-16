@@ -12,6 +12,15 @@
         private CheckBox checkBox1;
         private CheckBox checkBox2;
         private CheckBox checkBox3;
+        private Label ObjectName;
+        private Label ObjectOrbits;
+        private Label ObjectRadius;
+        private Label OrbitalRadius;
+        private Label OrbitalPeriod;
+        private Label RotationalPeriod;
+        private Label ObjectMoons;
+        private Label TickRate;
+        private Label ElapsedTime;
         private Tuple<int, int> center;
 
         /// <summary>
@@ -209,15 +218,5 @@
         }
 
         #endregion
-
-        private Label ObjectName;
-        private Label ObjectOrbits;
-        private Label ObjectRadius;
-        private Label OrbitalRadius;
-        private Label OrbitalPeriod;
-        private Label RotationalPeriod;
-        private Label ObjectMoons;
-        private Label TickRate;
-        private Label ElapsedTime;
     }            
 }

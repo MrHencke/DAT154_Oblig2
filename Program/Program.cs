@@ -23,14 +23,14 @@ namespace Program
             Console.WriteLine("Please enter an object: ");
             string cmd = Console.ReadLine()!.ToLower();
             if (cmd == "") cmd = "sun";
-            CelestialObject obj = milkyWay.objects.Where(i => i.name.ToLower() == cmd).FirstOrDefault()!;
+            CelestialObject obj = milkyWay.objects.Where(i => i.Name.ToLower() == cmd).FirstOrDefault()!;
             if (obj == null) return;
-            if (obj.name == "Sun")
+            if (obj.Name == "Sun")
             {
                 milkyWay.objects.ForEach(i => 
                 { 
                 i.Draw();
-                i.writePosition(time);
+                i.WritePosition(time);
                 });
             }
             else

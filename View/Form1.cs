@@ -23,7 +23,7 @@ namespace View
             this.checkBox3.CheckedChanged += refresh;
             this.comboBox1.Items.Add("All");
             this.comboBox1.SelectedIndex = 0;
-            this.solarSystem.objects.ForEach(o => this.comboBox1.Items.Add(o.name));
+            this.solarSystem.objects.ForEach(o => this.comboBox1.Items.Add(o.Name));
             t.Interval = 11;
             this.TickRate.Text = String.Format("{0} ms/tick",t.Interval);
             t.Tick += T_Tick;
@@ -49,10 +49,10 @@ namespace View
                     break;
 
                 default:
-                    CelestialObject obj = this.solarSystem.objects.Find(i => i.name == selected.ToString());
+                    CelestialObject obj = this.solarSystem.objects.Find(i => i.Name == selected.ToString());
                     DrawInfoSection(obj);
                     int scaling = 5;
-                    g.TranslateTransform(center.Item1 - (scaling * obj.xPos), center.Item2 - (scaling * obj.yPos));
+                    g.TranslateTransform(center.Item1 - (scaling * obj.XPos), center.Item2 - (scaling * obj.YPos));
                     g.ScaleTransform(scaling, scaling);
                     DrawAllObjects(g);
                     break;
@@ -77,14 +77,21 @@ namespace View
 
         public void DrawInfoSection(CelestialObject obj)
         {
-            ObjectName.Text = String.Format("Object Name: {0}", obj.name);
-            ObjectOrbits.Text = String.Format("Object Orbits: {0}", obj.orbits.name);
-            ObjectRadius.Text = String.Format("Object Radius: {0} km", obj.o_objectRadius);
-            OrbitalRadius.Text = String.Format("Orbital Radius: {0} km", obj.o_orbitalRadius);
-            OrbitalPeriod.Text = String.Format("Orbital Period: {0} earth days", obj.orbitalPeriod);
-            RotationalPeriod.Text = String.Format("Rotational Period: {0} earth days", obj.rotationalPeriod);
-            //if (obj.Moons.count)
-            ObjectMoons.Text = String.Format("Moons: {0}", "Placeholder");
+            ObjectName.Text = String.Format("Object Name: {0}", obj.Name);
+            ObjectOrbits.Text = String.Format("Object Orbits: {0}", obj.Orbits.Name);
+            ObjectRadius.Text = String.Format("Object Radius: {0} km", obj.UnscaledObjectRadius);
+            OrbitalRadius.Text = String.Format("Orbital Radius: {0} km", obj.UnscaledOrbitalRadius);
+            OrbitalPeriod.Text = String.Format("Orbital Period: {0} earth days", obj.OrbitalPeriod);
+            RotationalPeriod.Text = String.Format("Rotational Period: {0} earth days", obj.RotationalPeriod);
+            if (obj is Planet)
+            {
+            String moonString = String.Empty;
+            Planet planet = (Planet)obj;
+            if(planet.Moons.Count > 0) { 
+            planet.Moons.ForEach(i => moonString += i.Name + "\n");
+            ObjectMoons.Text = String.Format("Moons: {0}", moonString);
+                }
+            }
         }
 
         public void ClearInfoSection()
@@ -120,7 +127,7 @@ namespace View
         {
             Tuple<int, int> center = Tuple.Create(ClientSize.Width / 2, ClientSize.Height / 2);
             this.center = center;
-            this.solarSystem.GravitationalCenter.setPosition(this.center);
+            this.solarSystem.GravitationalCenter.SetPosition(this.center);
         }
         private void DrawBackground(Graphics g)
         {
@@ -141,7 +148,7 @@ namespace View
             {
                 this.time++;
                 this.ElapsedTime.Text = String.Format("{0} earth days elapsed", time);
-                this.solarSystem.objects.ForEach(o => o.updatePosition(time));
+                this.solarSystem.objects.ForEach(o => o.UpdatePosition(time));
                 this.Refresh();
             }
         }
