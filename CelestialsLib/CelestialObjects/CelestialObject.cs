@@ -36,6 +36,11 @@ namespace CelestialsLib
             this.ObjectColor = objectColor;
         }
 
+        public virtual void UpdatePositionEvent(object sender, EventArgs e)
+        {
+            //UpdatePosition();
+        }
+
         public virtual void UpdatePosition(int time)
         {
             this.XPos = (int)(this.Orbits.XPos + (this.OrbitalRadius * Math.Cos((time / this.OrbitalPeriod) * Math.PI)));
@@ -51,7 +56,7 @@ namespace CelestialsLib
         public virtual void Draw(int time)
         {
             Draw();
-            writePosition(time);
+            WritePosition(time);
         }
 
         public virtual void DrawForms(Graphics g)

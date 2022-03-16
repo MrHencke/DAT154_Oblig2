@@ -14,10 +14,10 @@ namespace CelestialsLib
         { 
         }
 
-        public void SetPosition(Tuple<int, int> center)
+        public void SetPosition(int x, int y)
         {
-            this.XPos = center.Item1;
-            this.YPos = center.Item2;
+            this.XPos = x;
+            this.YPos = y;
         }
         public override void DrawObjectOrbit(Graphics g)
         {

@@ -7,7 +7,6 @@
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private SolarSystem solarSystem;
         private ComboBox comboBox1;
         private CheckBox checkBox1;
         private CheckBox checkBox2;
@@ -21,7 +20,6 @@
         private Label ObjectMoons;
         private Label TickRate;
         private Label ElapsedTime;
-        private Tuple<int, int> center;
 
         /// <summary>
         ///  Clean up any resources being used.

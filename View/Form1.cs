@@ -7,61 +7,62 @@ namespace View
 {
     public partial class Form1 : Form
     {
-        private readonly Timer t = new();
-        private int time;
+        private SolarSystem _solarSystem;
+        private int _xCenter;
+        private int _yCenter;
+        private CustomTimer _timer;
 
         public Form1()
         {
-            this.solarSystem = new DebugWay();
-            InitializeComponent();
-            this.center = Tuple.Create(ClientSize.Width / 2, ClientSize.Height / 2);
-            setCenter();
+            this._solarSystem = new DebugWay();
+            this._timer = new CustomTimer();
+            this.InitializeComponent();
+            this._xCenter = ClientSize.Width / 2;
+            this._yCenter = ClientSize.Height / 2;
+            this.SetCenter();
             this.MouseClick += Form1_MouseClick;
-            this.comboBox1.SelectedIndexChanged += refresh;
-            this.checkBox1.CheckedChanged += refresh;
-            this.checkBox2.CheckedChanged += refresh;
-            this.checkBox3.CheckedChanged += refresh;
+            this.comboBox1.SelectedIndexChanged += Refresh;
+            this.checkBox1.CheckedChanged += Refresh;
+            this.checkBox2.CheckedChanged += Refresh;
+            this.checkBox3.CheckedChanged += this._timer.ToggleTimer;
+            this._timer.Refresh += Refresh;
             this.comboBox1.Items.Add("All");
             this.comboBox1.SelectedIndex = 0;
-            this.solarSystem.objects.ForEach(o => this.comboBox1.Items.Add(o.Name));
-            t.Interval = 11;
-            this.TickRate.Text = String.Format("{0} ms/tick",t.Interval);
-            t.Tick += T_Tick;
-            time = 0;
-            t.Start();
+            this._solarSystem.objects.ForEach(o => this.comboBox1.Items.Add(o.Name));
+            this._solarSystem.objects.ForEach(o => this._timer.UpdatePosition += o.UpdatePosition);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            DrawSolarSystem(e.Graphics);
+            this.DrawSolarSystem(e.Graphics);
         }
 
         private void DrawSolarSystem(Graphics g)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            DrawBackground(g);
-            setCenter();
+            this.DrawBackground(g);
+            this.SetCenter();
             var selected = this.comboBox1.SelectedItem;
             switch (selected)
             {
                 case "All":
-                    DrawAllObjects(g);
-                    ClearInfoSection();
+                    this.DrawAllObjects(g);
+                    this.ClearInfoSection();
                     break;
 
                 default:
-                    CelestialObject obj = this.solarSystem.objects.Find(i => i.Name == selected.ToString());
-                    DrawInfoSection(obj);
+                    CelestialObject obj = this._solarSystem.objects.Find(i => i.Name == selected.ToString());
+                    this.DrawInfoSection(obj);
                     int scaling = 5;
-                    g.TranslateTransform(center.Item1 - (scaling * obj.XPos), center.Item2 - (scaling * obj.YPos));
+                    g.TranslateTransform(this._xCenter - (scaling * obj.XPos), this._yCenter - (scaling * obj.YPos));
                     g.ScaleTransform(scaling, scaling);
-                    DrawAllObjects(g);
+                    this.DrawAllObjects(g);
                     break;
             }
         }
 
         public void DrawAllObjects(Graphics g)
         {
-            this.solarSystem.objects.ForEach(i =>
+            this._solarSystem.objects.ForEach(i =>
             {
                 i.DrawForms(g);
                 if (this.checkBox1.Checked)
@@ -77,38 +78,40 @@ namespace View
 
         public void DrawInfoSection(CelestialObject obj)
         {
-            ObjectName.Text = String.Format("Object Name: {0}", obj.Name);
-            ObjectOrbits.Text = String.Format("Object Orbits: {0}", obj.Orbits.Name);
-            ObjectRadius.Text = String.Format("Object Radius: {0} km", obj.UnscaledObjectRadius);
-            OrbitalRadius.Text = String.Format("Orbital Radius: {0} km", obj.UnscaledOrbitalRadius);
-            OrbitalPeriod.Text = String.Format("Orbital Period: {0} earth days", obj.OrbitalPeriod);
-            RotationalPeriod.Text = String.Format("Rotational Period: {0} earth days", obj.RotationalPeriod);
+            this.ObjectName.Text = String.Format("Object Name: {0}", obj.Name);
+            this.ObjectOrbits.Text = String.Format("Object Orbits: {0}", obj.Orbits.Name);
+            this.ObjectRadius.Text = String.Format("Object Radius: {0} km", obj.UnscaledObjectRadius);
+            this.OrbitalRadius.Text = String.Format("Orbital Radius: {0} km", obj.UnscaledOrbitalRadius);
+            this.OrbitalPeriod.Text = String.Format("Orbital Period: {0} earth days", obj.OrbitalPeriod);
+            this.RotationalPeriod.Text = String.Format("Rotational Period: {0} earth days", obj.RotationalPeriod);
             if (obj is Planet)
             {
             String moonString = String.Empty;
             Planet planet = (Planet)obj;
             if(planet.Moons.Count > 0) { 
-            planet.Moons.ForEach(i => moonString += i.Name + "\n");
-            ObjectMoons.Text = String.Format("Moons: {0}", moonString);
+                planet.Moons.ForEach(i => moonString += i.Name + "\n");
+                this.ObjectMoons.Text = String.Format("Moons: {0}", moonString);
                 }
             }
         }
 
         public void ClearInfoSection()
         {
-            ObjectName.Text = String.Empty;
-            ObjectOrbits.Text = String.Empty;
-            ObjectRadius.Text = String.Empty;
-            OrbitalRadius.Text = String.Empty;
-            OrbitalPeriod.Text = String.Empty;
-            RotationalPeriod.Text = String.Empty;
-            ObjectMoons.Text = String.Empty;
+            this.ObjectName.Text = String.Empty;
+            this.ObjectOrbits.Text = String.Empty;
+            this.ObjectRadius.Text = String.Empty;
+            this.OrbitalRadius.Text = String.Empty;
+            this.OrbitalPeriod.Text = String.Empty;
+            this.RotationalPeriod.Text = String.Empty;
+            this.ObjectMoons.Text = String.Empty;
         }
 
-        private void refresh(object sender, System.EventArgs e)
+        private void Refresh(object sender, System.EventArgs e)
         {
+            this.TickRate.Text = String.Format("{0} ms/tick", this._timer.GetIntervalTime());
             this.Refresh();
         }
+
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -123,11 +126,11 @@ namespace View
                     break;
             }
         }
-        private void setCenter()
+        private void SetCenter()
         {
-            Tuple<int, int> center = Tuple.Create(ClientSize.Width / 2, ClientSize.Height / 2);
-            this.center = center;
-            this.solarSystem.GravitationalCenter.SetPosition(this.center);
+            this._xCenter = ClientSize.Width / 2;
+            this._yCenter = ClientSize.Height / 2;
+            this._solarSystem.GravitationalCenter.SetPosition(this._xCenter, this._yCenter);
         }
         private void DrawBackground(Graphics g)
         {
@@ -138,39 +141,21 @@ namespace View
 
         protected override void OnResize(EventArgs e)
         {
-            setCenter();
+            this.SetCenter();
             this.Refresh();
         }
 
-        private void T_Tick(object sender, EventArgs e)
-        {
-            if (this.checkBox3.Checked)
-            {
-                this.time++;
-                this.ElapsedTime.Text = String.Format("{0} earth days elapsed", time);
-                this.solarSystem.objects.ForEach(o => o.UpdatePosition(time));
-                this.Refresh();
-            }
-        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Up)
             {
-                t.Stop();
-                t.Interval = t.Interval + 10;
-                t.Start();
-                this.TickRate.Text = String.Format("{0} ms/tick", t.Interval.ToString());
+                this._timer.IncreaseInterval();
                 return true;    
             }
             else if (keyData == Keys.Down)
             {
-                if (t.Interval - 10 > 0)
-                {
-                    t.Stop();
-                    t.Interval = t.Interval - 10;
-                    t.Start();
-                    this.TickRate.Text = String.Format("{0} ms/tick", t.Interval.ToString());
-                }
+                this._timer.DecreaseInterval();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
