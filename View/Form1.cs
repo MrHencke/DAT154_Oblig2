@@ -14,7 +14,7 @@ namespace View
 
         public Form1()
         {
-            this._solarSystem = new DebugWay();
+            this._solarSystem = new MilkyWay();
             this._timer = new CustomTimer();
             this.InitializeComponent();
             this._xCenter = ClientSize.Width / 2;
@@ -109,6 +109,7 @@ namespace View
         private void Refresh(object sender, System.EventArgs e)
         {
             this.TickRate.Text = String.Format("{0} ms/tick", this._timer.GetIntervalTime());
+            this.ElapsedTime.Text = String.Format("{0} earth days elapsed", this._timer.Time);
             this.Refresh();
         }
 

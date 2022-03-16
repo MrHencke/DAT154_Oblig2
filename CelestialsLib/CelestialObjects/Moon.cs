@@ -8,7 +8,7 @@ namespace CelestialsLib
         public Moon(String name, CelestialObject orbits, int objectRadius, int orbitalRadius, double orbitalPeriod, double rotationalPeriod, Color objectColor) :
         base(name, orbits, objectRadius, orbitalRadius, orbitalPeriod, rotationalPeriod, objectColor){
             //Slightly different scaling for moons as opposed to other objects.
-            this.OrbitalRadius = (int)(Math.Sqrt(200 * Math.Sqrt(orbitalRadius) / Math.Log(orbitalRadius))) % 20;
+            this.OrbitalRadius = orbits.ObjectRadius+(int)(Math.Sqrt(200 * Math.Sqrt(orbitalRadius) / Math.Log(orbitalRadius))) % 10;
         }
     }
 }

@@ -43,8 +43,8 @@ namespace CelestialsLib
 
         public virtual void UpdatePosition(int time)
         {
-            this.XPos = (int)(this.Orbits.XPos + (this.OrbitalRadius * Math.Cos((time / this.OrbitalPeriod) * Math.PI)));
-            this.YPos = (int)(this.Orbits.YPos + (this.OrbitalRadius * Math.Sin((time / this.OrbitalPeriod) * Math.PI)));
+            this.XPos = (int)(this.Orbits.XPos + (this.OrbitalRadius * Math.Cos(time / this.OrbitalPeriod * 2*Math.PI)));
+            this.YPos = (int)(this.Orbits.YPos + (this.OrbitalRadius * Math.Sin(time / this.OrbitalPeriod * 2*Math.PI)));
         }
 
         public virtual void Draw()
