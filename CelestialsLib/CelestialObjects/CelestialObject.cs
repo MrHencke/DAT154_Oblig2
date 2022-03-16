@@ -6,13 +6,15 @@ namespace CelestialsLib
     public class CelestialObject
     {
         public String name { get; protected set; }
-        protected CelestialObject orbits { get; set; }
-        protected int xPos { get; set; }
-        protected int yPos { get; set; }
-        protected int objectRadius { get; set; }
-        protected int orbitalRadius{ get; set; }
-        protected double orbitalPeriod { get; set; }
-        protected double rotationalPeriod { get; set; }
+        public CelestialObject orbits { get; protected set; }
+        public int xPos { get; protected set; }
+        public int yPos { get; protected set; }
+        public int objectRadius { get; protected set; }
+        public int o_objectRadius { get; protected set; }
+        public int orbitalRadius{ get; protected set; }
+        public long o_orbitalRadius{ get; protected set; }
+        public double orbitalPeriod { get; protected set; }
+        public double rotationalPeriod { get; protected set; }
         protected Color objectColor { get; set; }
 
         public CelestialObject(String name)
@@ -26,7 +28,9 @@ namespace CelestialsLib
             this.xPos = 0;
             this.yPos = 0;
             this.objectRadius = (int)(Math.Sqrt(objectRadius)/Math.Log(objectRadius));
-            this.orbitalRadius = (int)(Math.Sqrt(200*Math.Sqrt(orbitalRadius) / Math.Log(orbitalRadius)))-200; 
+            this.o_objectRadius = objectRadius;
+            this.orbitalRadius = (int)(Math.Sqrt(200 * Math.Sqrt(orbitalRadius) / Math.Log(orbitalRadius))) - 200;
+            this.o_orbitalRadius = orbitalRadius;
             this.orbitalPeriod = orbitalPeriod;
             this.rotationalPeriod = rotationalPeriod;
             this.objectColor = objectColor;
@@ -50,12 +54,10 @@ namespace CelestialsLib
             writePosition(time);
         }
 
-        public virtual void DrawForms(Graphics g, int x = -1, int y = -1)
+        public virtual void DrawForms(Graphics g)
         {
-            int zoomedSize = 62;
             Brush brush = new SolidBrush(objectColor);
-            Rectangle rect = x == -1 && y == -1 ? new Rectangle(xPos-objectRadius, yPos-objectRadius, 2*objectRadius, 2*objectRadius) 
-                : new Rectangle(x - zoomedSize, y - zoomedSize, 2 * zoomedSize, 2 * zoomedSize);
+            Rectangle rect = new Rectangle(xPos - objectRadius, yPos - objectRadius, 2 * objectRadius, 2 * objectRadius);
             g.FillEllipse(brush, rect);
             brush.Dispose();
         }
@@ -72,14 +74,17 @@ namespace CelestialsLib
             Point point = x == -1 && y == -1 ? new Point(this.xPos-10, this.yPos+this.objectRadius+10)
                 : new Point(x, y + this.objectRadius+10);
             StringFormat stringFormat = new StringFormat();
-            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(255, 0, 0, 255));
+            SolidBrush brush = new SolidBrush(Color.Black);
             stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
-            g.DrawString(this.name, font, solidBrush, point, stringFormat);
+            g.DrawString(this.name, font, brush, point, stringFormat);
+            brush.Dispose();
         }
 
         public virtual void DrawObjectOrbit(Graphics g)
         {
             Pen pen = new Pen(Color.White);
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            pen.DashPattern = new float[] { 5, 4 };
             Rectangle rect = new Rectangle(this.orbits.xPos - orbitalRadius, this.orbits.yPos - orbitalRadius, 2 * orbitalRadius, 2 * orbitalRadius);
             g.DrawEllipse(pen, rect);
             pen.Dispose();

@@ -10,6 +10,7 @@ namespace CelestialsLib
     {
         public Sun GravitationalCenter { get; protected set; }
         public List<CelestialObject> objects { get; protected set; }
+
         public SolarSystem()
         {
             this.GravitationalCenter = new Sun();

@@ -19,5 +19,9 @@ namespace CelestialsLib
             this.xPos = center.Item1;
             this.yPos = center.Item2;
         }
+        public override void DrawObjectOrbit(Graphics g)
+        {
+           //
+        }
     }
 }

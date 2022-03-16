@@ -23,10 +23,28 @@ namespace CelestialsLib
             base.Draw(time);
             if( Moons != null ) Moons.ForEach(m => m.Draw(time));
         }
-        public override void DrawForms(Graphics g, int x = -1, int y = -1)
+
+        public override void updatePosition(int time)
         {
-            base.DrawForms(g, x, y);
-            if (Moons != null) Moons.ForEach(m => m.DrawForms(g,x,y));
+            base.updatePosition(time);
+            if (Moons.Count > 0) Moons.ForEach(m => m.updatePosition(time));
+        }
+        public override void DrawForms(Graphics g)
+        {
+            base.DrawForms(g);
+            if (Moons.Count > 0) Moons.ForEach(m => m.DrawForms(g));
+        }
+
+        public override void DrawObjectName(Graphics g, int x = -1, int y = -1)
+        {
+            base.DrawObjectName(g, x, y);
+            if (Moons.Count > 0) Moons.ForEach(m => m.DrawObjectName(g));
+        }
+
+        public override void DrawObjectOrbit(Graphics g)
+        {
+            base.DrawObjectOrbit(g);
+            if (Moons.Count > 0) Moons.ForEach(m => m.DrawObjectOrbit(g));
         }
     }
 }
